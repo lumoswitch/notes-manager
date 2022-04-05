@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_manager/views/login_view.dart';
+import 'package:notes_manager/views/register_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,7 @@ void main() {
       home: const HomePage(),
       routes: {
         '/login/': (context) => const LoginView(),
+        '/register/': (context) => const RegisterView(),
       },
     ),
   );
