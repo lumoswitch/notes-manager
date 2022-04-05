@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:notes_manager/constants/routes.dart';
 import 'package:notes_manager/widgets/action_button.dart';
 import 'package:notes_manager/widgets/connect_with_google.dart';
-import 'package:notes_manager/widgets/input_field.dart';
 import 'package:notes_manager/widgets/user_credential_form.dart';
 
 class LoginView extends StatefulWidget {
@@ -48,10 +47,26 @@ class _LoginViewState extends State<LoginView> {
                 onPressed: () {},
                 child: const Text('Forgot Password?'),
               ),
-              const ActionButtonWidget(
-                buttonText: Text('Login'),
-                onPressedAction: null,
-              ),
+              ActionButtonWidget(
+                  buttonText: const Text('Login'),
+                  onPressedAction: () async {
+                    final email = _email.text;
+                    final password = _password.text;
+                    try {
+                      final userCredential = await FirebaseAuth.instance
+                          .signInWithEmailAndPassword(
+                        email: email,
+                        password: password,
+                      );
+                      print(userCredential);
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'user-not-found') {
+                        print('User not found');
+                      } else if (e.code == 'wrong-password') {
+                        print('Wrong password');
+                      }
+                    }
+                  }),
               const ConnectWithGoogle(),
               TextButton(
                 onPressed: () {

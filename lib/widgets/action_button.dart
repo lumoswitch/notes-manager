@@ -14,8 +14,8 @@ class ActionButtonWidget extends StatelessWidget {
     return SizedBox(
       width: 300,
       child: ElevatedButton(
-        onPressed: onPressedAction,
         child: buttonText,
+        onPressed: onPressedAction,
       ),
     );
   }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:notes_manager/constants/routes.dart';
 import 'package:notes_manager/widgets/action_button.dart';
 import 'package:notes_manager/widgets/connect_with_google.dart';
-import 'package:notes_manager/widgets/input_field.dart';
 import 'package:notes_manager/widgets/user_credential_form.dart';
 
 class RegisterView extends StatefulWidget {
@@ -42,10 +41,28 @@ class _RegisterViewState extends State<RegisterView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             UserCredentialForm(email: _email, password: _password),
-            const ActionButtonWidget(
-              buttonText: Text('Register'),
-              onPressedAction: null,
-            ),
+            ActionButtonWidget(
+                buttonText: const Text('Register'),
+                onPressedAction: () async {
+                  final email = _email.text;
+                  final password = _password.text;
+                  try {
+                    final userCredential = await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                      email: email,
+                      password: password,
+                    );
+                    print(userCredential);
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'weak-password') {
+                      print('Weak password');
+                    } else if (e.code == 'email-already-in-use') {
+                      print('Email is already in use');
+                    } else if (e.code == 'invalid-email') {
+                      print('invalid email entered');
+                    }
+                  }
+                }),
             const ConnectWithGoogle(),
             TextButton(
               onPressed: () {

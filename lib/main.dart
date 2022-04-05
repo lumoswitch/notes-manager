@@ -3,12 +3,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_manager/views/login_view.dart';
 import 'package:notes_manager/views/register_view.dart';
+import 'package:notes_manager/views/verify_email_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
-      title: 'Notes Manager',
+      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -29,7 +30,22 @@ class HomePage extends StatelessWidget {
     return FutureBuilder(
       future: Firebase.initializeApp(),
       builder: (context, snapshot) {
-        return const LoginView();
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            final user = FirebaseAuth.instance.currentUser;
+            if (user != null) {
+              if (user.emailVerified) {
+                print('Email is verified');
+              } else {
+                return const VerifyEmailView();
+              }
+            } else {
+              return const LoginView();
+            }
+            return const Text('Done');
+          default:
+            return const CircularProgressIndicator();
+        }
       },
     );
   }
