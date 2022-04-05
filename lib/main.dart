@@ -8,7 +8,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Notes Manager',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

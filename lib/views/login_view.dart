@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_manager/constants/routes.dart';
+import 'package:notes_manager/widgets/input_field.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -46,31 +47,30 @@ class _LoginViewState extends State<LoginView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text('Login'),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                        controller: _email,
-                        enableSuggestions: false,
-                        autocorrect: false,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter your email here',
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a valid email';
-                          }
-                          return null;
-                        }),
-                    const SizedBox(height: 40),
-                    TextFormField(
-                      controller: _password,
-                      obscureText: true,
-                      enableSuggestions: false,
-                      autocorrect: false,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter your password here',
-                      ),
-                    ),
+                    InputFieldWidget(
+                    controller: _email,
+                    hideInputText: false,
+                    type: TextInputType.emailAddress,
+                    hintText: 'Enter your email here',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
+                  ),
+                  InputFieldWidget(
+                    controller: _password,
+                    hideInputText: true,
+                    type: TextInputType.emailAddress,
+                    hintText: 'Enter your password here',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a valid password';
+                      }
+                      return null;
+                    },
+                  ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
