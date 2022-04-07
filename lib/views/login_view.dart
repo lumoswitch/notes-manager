@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_manager/constants/routes.dart';
+import 'package:notes_manager/services/auth/auth_exceptions.dart';
+import 'package:notes_manager/services/auth/auth_service.dart';
 import 'package:notes_manager/utilities/show_error_dialog.dart';
 import 'package:notes_manager/widgets/action_button.dart';
 import 'package:notes_manager/widgets/connect_with_google.dart';
@@ -59,37 +61,29 @@ class _LoginViewState extends State<LoginView> {
                         email: email,
                         password: password,
                       );
-                      final user = FirebaseAuth.instance.currentUser;
-                      if (user?.emailVerified ?? false) {
+                      final user = AuthService.firebase().currentUser;
+                      if (user?.isEmailVerified ?? false) {
                         // user's email is verified
                         Navigator.of(context).pushNamedAndRemoveUntil(
                           dashboardRoute,
                           (route) => false,
                         );
-                      } else {
-                        // user's email is NOT verified
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                          verifyEmailRoute,
-                          (route) => false,
-                        );
                       }
-                    } on FirebaseAuthException catch (e) {
-                      if (e.code == 'user-not-found') {
-                        await showErrorDialog(
-                          context,
-                          'User not found',
-                        );
-                      } else if (e.code == 'wrong-password') {
-                        await showErrorDialog(
-                          context,
-                          'Wrong password',
-                        );
-                      } else {
-                        await showErrorDialog(
-                          context,
-                          'Error: ${e.code}',
-                        );
-                      }
+                    } on UserNotFoundAuthException {
+                      await showErrorDialog(
+                        context,
+                        'User not found',
+                      );
+                    } on WrongPasswordAuthException {
+                      await showErrorDialog(
+                        context,
+                        'Wrong credentials',
+                      );
+                    } on GenericAuthException {
+                      await showErrorDialog(
+                        context,
+                        'Authentication error',
+                      );
                     }
                   }),
               const ConnectWithGoogle(),
