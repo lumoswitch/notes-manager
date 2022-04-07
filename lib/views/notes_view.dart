@@ -12,7 +12,7 @@ class NotesView extends StatefulWidget {
 }
 
 class _NotesViewState extends State<NotesView> {
-   late final NotesService _notesService;
+  late final NotesService _notesService;
   String get userEmail => AuthService.firebase().currentUser!.email!;
 
   @override
@@ -26,13 +26,19 @@ class _NotesViewState extends State<NotesView> {
     _notesService.close();
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Main UI'),
+        title: const Text('Your notes'),
         actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(createOrUpdateNoteRoute);
+            },
+            icon: const Icon(Icons.add),
+          ),
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
               switch (value) {
@@ -67,7 +73,8 @@ class _NotesViewState extends State<NotesView> {
                 stream: _notesService.allNotes,
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
+                     case ConnectionState.waiting:
+                    case ConnectionState.active:
                       return const Text('Waiting for all notes...');
                     default:
                       return const CircularProgressIndicator();
