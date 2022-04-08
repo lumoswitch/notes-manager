@@ -1,12 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_manager/constants/routes.dart';
 import 'package:notes_manager/services/auth/auth_exceptions.dart';
-import 'package:notes_manager/services/auth/auth_service.dart';
+import 'package:notes_manager/services/auth/bloc/auth_bloc.dart';
+import 'package:notes_manager/services/auth/bloc/auth_event.dart';
 import 'package:notes_manager/utilities/show_error_dialog.dart';
 import 'package:notes_manager/widgets/action_button.dart';
 import 'package:notes_manager/widgets/connect_with_google.dart';
 import 'package:notes_manager/widgets/user_credential_form.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -56,18 +57,9 @@ class _LoginViewState extends State<LoginView> {
                     final email = _email.text;
                     final password = _password.text;
                     try {
-                      await AuthService.firebase().logIn(
-                        email: email,
-                        password: password,
+                      context.read<AuthBloc>().add(
+                        AuthEventLogin(email, password),
                       );
-                      final user = AuthService.firebase().currentUser;
-                      if (user?.isEmailVerified ?? false) {
-                        // user's email is verified
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                          dashboardRoute,
-                          (route) => false,
-                        );
-                      }
                     } on UserNotFoundAuthException {
                       await showErrorDialog(
                         context,
