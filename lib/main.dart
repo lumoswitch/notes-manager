@@ -6,6 +6,7 @@ import 'package:notes_manager/services/auth/bloc/auth_bloc.dart';
 import 'package:notes_manager/services/auth/bloc/auth_event.dart';
 import 'package:notes_manager/services/auth/bloc/auth_state.dart';
 import 'package:notes_manager/services/auth/firebase_auth_provider.dart';
+import 'package:notes_manager/views/forgot_password_view.dart';
 import 'package:notes_manager/views/login_view.dart';
 import 'package:notes_manager/views/notes/create_update_note_view.dart';
 import 'package:notes_manager/views/notes_view.dart';
@@ -40,8 +41,9 @@ class HomePage extends StatelessWidget {
 
     return BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
       if (state.isLoading) {
-        LoadingScreen().show(context: context, text: state.loadingText ?? 'Please wait...');
-      }else{
+        LoadingScreen().show(
+            context: context, text: state.loadingText ?? 'Please wait...');
+      } else {
         LoadingScreen().hide();
       }
     }, builder: ((context, state) {
@@ -51,6 +53,8 @@ class HomePage extends StatelessWidget {
         return const VerifyEmailView();
       } else if (state is AuthStateLoggedOut) {
         return const LoginView();
+      } else if (state is AuthStateForgotPassword) {
+        return const ForgotPasswordView();
       } else if (state is AuthStateRegistering) {
         return const RegisterView();
       } else {
