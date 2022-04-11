@@ -3,11 +3,10 @@ import 'package:notes_manager/constants/routes.dart';
 import 'package:notes_manager/services/auth/auth_exceptions.dart';
 import 'package:notes_manager/services/auth/bloc/auth_bloc.dart';
 import 'package:notes_manager/services/auth/bloc/auth_event.dart';
-import 'package:notes_manager/utilities/show_error_dialog.dart';
-import 'package:notes_manager/widgets/action_button.dart';
-import 'package:notes_manager/widgets/connect_with_google.dart';
-import 'package:notes_manager/widgets/user_credential_form.dart';
+import 'package:notes_manager/services/auth/bloc/auth_state.dart';
+import 'package:notes_manager/utilities/dialogs/error_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_manager/utilities/dialogs/loading_dialog.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -19,7 +18,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
-  final _formKey = GlobalKey<FormState>();
+  CloseDialog? _closeDialogHandle;
 
   @override
   void initState() {
@@ -37,64 +36,75 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) async {
+        if (state is AuthStateLoggedOut) {
+          final closeDialog = _closeDialogHandle;
+
+          if (!state.isLoading && closeDialog != null) {
+            closeDialog();
+            _closeDialogHandle = null;
+          } else if (state.isLoading && closeDialog == null) {
+            _closeDialogHandle = showLoadingDialog(
+              context: context,
+              text: 'Loading...',
+            );
+          }
+          if (state.exception is UserNotFoundAuthException) {
+            await showErrorDialog(context, 'User not found');
+          } else if (state.exception is WrongPasswordAuthException) {
+            await showErrorDialog(context, 'Wrong credentials');
+          } else if (state.exception is GenericAuthException) {
+            await showErrorDialog(context, 'Authentication error');
+          }
+        }
+      },
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Login'),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              UserCredentialForm(email: _email, password: _password),
-              TextButton(
-                onPressed: () {},
-                child: const Text('Forgot Password?'),
+        body: Column(
+          children: [
+            TextField(
+              controller: _email,
+              enableSuggestions: false,
+              autocorrect: false,
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(
+                hintText: 'Enter your email here',
               ),
-              ActionButtonWidget(
-                  buttonText: const Text('Login'),
-                  onPressedAction: () async {
-                    final email = _email.text;
-                    final password = _password.text;
-                    try {
-                      context.read<AuthBloc>().add(
-                        AuthEventLogin(email, password),
-                      );
-                    } on UserNotFoundAuthException {
-                      await showErrorDialog(
-                        context,
-                        'User not found',
-                      );
-                    } on WrongPasswordAuthException {
-                      await showErrorDialog(
-                        context,
-                        'Wrong credentials',
-                      );
-                    } on GenericAuthException {
-                      await showErrorDialog(
-                        context,
-                        'Authentication error',
-                      );
-                    }
-                  }),
-              const ConnectWithGoogle(),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil(registerRoute, (route) => false);
-                },
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text('Don’t have an account? ',
-                          style: TextStyle(
-                            color: Color.fromRGBO(99, 99, 99, 1),
-                          )),
-                      Text('Register here!')
-                    ]),
+            ),
+            TextField(
+              controller: _password,
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
+              decoration: const InputDecoration(
+                hintText: 'Enter your password here',
               ),
-            ],
-          ),
+            ),
+            TextButton(
+              onPressed: () async {
+                final email = _email.text;
+                final password = _password.text;
+                context.read<AuthBloc>().add(
+                      AuthEventLogin(
+                        email,
+                        password,
+                      ),
+                    );
+              },
+              child: const Text('Login'),
+            ),
+            TextButton(
+              onPressed: () {
+                context.read<AuthBloc>().add(
+                      const AuthEventShouldRegister(),
+                    );
+              },
+              child: const Text('Not registered yet? Register here!'),
+            )
+          ],
         ),
       ),
     );
