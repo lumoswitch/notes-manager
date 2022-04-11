@@ -24,6 +24,7 @@ class InputFieldWidget extends StatelessWidget {
         controller: controller,
         enableSuggestions: false,
         autocorrect: false,
+        autofocus: true,
         obscureText: hideInputText,
         keyboardType: type,
         decoration: InputDecoration(
