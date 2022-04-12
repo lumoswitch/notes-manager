@@ -71,7 +71,7 @@ class _RegisterViewState extends State<RegisterView> {
                           AuthEventRegister(email, password),
                         );
                   }),
-              const ConnectWithGoogle(),
+              // const ConnectWithGoogle(),
               TextButton(
                 onPressed: () {
                   context.read<AuthBloc>().add(const AuthEventLogout());
