@@ -12,7 +12,6 @@ import 'package:notes_manager/views/notes/create_update_note_view.dart';
 import 'package:notes_manager/views/notes/notes_view.dart';
 import 'package:notes_manager/views/register_view.dart';
 import 'package:notes_manager/views/verify_email_view.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notes_manager/constants/routes.dart';
 import 'package:notes_manager/extensions/buildContext/loc.dart';
 import 'package:notes_manager/services/auth/auth_exceptions.dart';
 import 'package:notes_manager/services/auth/bloc/auth_bloc.dart';
@@ -9,7 +8,6 @@ import 'package:notes_manager/utilities/dialogs/error_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_manager/widgets/action_button.dart';
 import 'package:notes_manager/widgets/user_credential_form.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_manager/extensions/buildContext/loc.dart';
 import 'package:notes_manager/widgets/input_field.dart';
 
 class UserCredentialForm extends StatelessWidget {
@@ -24,7 +25,7 @@ class UserCredentialForm extends StatelessWidget {
             controller: _email,
             hideInputText: false,
             type: TextInputType.emailAddress,
-            hintText: 'Enter your email here',
+            hintText: context.loc.email_text_field_placeholder,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter a valid email';
@@ -36,7 +37,7 @@ class UserCredentialForm extends StatelessWidget {
             controller: _password,
             hideInputText: true,
             type: TextInputType.emailAddress,
-            hintText: 'Enter your password here',
+            hintText: context.loc.password_text_field_placeholder,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter a valid password';

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_manager/constants/routes.dart';
 import 'package:notes_manager/extensions/buildContext/loc.dart';
-import 'package:notes_manager/services/auth/auth_service.dart';
 import 'package:notes_manager/services/auth/bloc/auth_bloc.dart';
 import 'package:notes_manager/services/auth/bloc/auth_event.dart';
 
