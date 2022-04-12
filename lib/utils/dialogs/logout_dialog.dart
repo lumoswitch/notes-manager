@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:notes_manager/extensions/buildContext/loc.dart';
-import 'package:notes_manager/utilities/dialogs/generic_dialog.dart';
+import 'package:notes_manager/utils/dialogs/generic_dialog.dart';
 
-Future<bool> showDeleteDialog(BuildContext context) {
+Future<bool> showLogOutDialog(BuildContext context) {
   return showGenericDialog<bool>(
     context: context,
-    title: context.loc.delete,
-    content: context.loc.delete_note_prompt,
+    title: context.loc.logout_button,
+    content: context.loc.logout_dialog_prompt,
     optionsBuilder: () => {
       context.loc.cancel: false,
-      context.loc.yes: true,
+      context.loc.logout_button: true,
     },
   ).then(
     (value) => value ?? false,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes_manager/extensions/buildContext/loc.dart';
-import 'package:notes_manager/utilities/dialogs/generic_dialog.dart';
+import 'package:notes_manager/utils/dialogs/generic_dialog.dart';
 
 Future<void> showPasswordResetSentDialog(BuildContext context) {
   return showGenericDialog(

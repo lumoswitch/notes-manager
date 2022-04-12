@@ -7,7 +7,7 @@ import 'package:notes_manager/services/auth/bloc/auth_bloc.dart';
 import 'package:notes_manager/services/auth/bloc/auth_event.dart';
 import 'package:notes_manager/services/cloud/cloud_note.dart';
 import 'package:notes_manager/services/cloud/firebase_cloud_storage.dart';
-import 'package:notes_manager/utilities/dialogs/logout_dialog.dart';
+import 'package:notes_manager/utils/dialogs/logout_dialog.dart';
 import 'package:notes_manager/views/notes/notes_list_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' show ReadContext;
 

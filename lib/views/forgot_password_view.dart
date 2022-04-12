@@ -4,8 +4,8 @@ import 'package:notes_manager/extensions/buildContext/loc.dart';
 import 'package:notes_manager/services/auth/bloc/auth_bloc.dart';
 import 'package:notes_manager/services/auth/bloc/auth_event.dart';
 import 'package:notes_manager/services/auth/bloc/auth_state.dart';
-import 'package:notes_manager/utilities/dialogs/error_dialog.dart';
-import 'package:notes_manager/utilities/dialogs/password_reset_email_sent_dialog.dart';
+import 'package:notes_manager/utils/dialogs/error_dialog.dart';
+import 'package:notes_manager/utils/dialogs/password_reset_email_sent_dialog.dart';
 
 class ForgotPasswordView extends StatefulWidget {
   const ForgotPasswordView({Key? key}) : super(key: key);

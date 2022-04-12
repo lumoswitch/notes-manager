@@ -5,7 +5,7 @@ import 'package:notes_manager/services/auth/auth_exceptions.dart';
 import 'package:notes_manager/services/auth/bloc/auth_bloc.dart';
 import 'package:notes_manager/services/auth/bloc/auth_event.dart';
 import 'package:notes_manager/services/auth/bloc/auth_state.dart';
-import 'package:notes_manager/utilities/show_error_dialog.dart';
+import 'package:notes_manager/utils/show_error_dialog.dart';
 import 'package:notes_manager/widgets/action_button.dart';
 import 'package:notes_manager/widgets/user_credential_form.dart';
 
