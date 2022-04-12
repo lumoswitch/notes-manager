@@ -9,15 +9,21 @@ import 'package:notes_manager/services/auth/firebase_auth_provider.dart';
 import 'package:notes_manager/views/forgot_password_view.dart';
 import 'package:notes_manager/views/login_view.dart';
 import 'package:notes_manager/views/notes/create_update_note_view.dart';
-import 'package:notes_manager/views/notes_view.dart';
+import 'package:notes_manager/views/notes/notes_view.dart';
 import 'package:notes_manager/views/register_view.dart';
 import 'package:notes_manager/views/verify_email_view.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
       title: 'Notes Manager',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

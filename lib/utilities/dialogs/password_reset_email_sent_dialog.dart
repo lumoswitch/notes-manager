@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
+import 'package:notes_manager/extensions/buildContext/loc.dart';
 import 'package:notes_manager/utilities/dialogs/generic_dialog.dart';
 
 Future<void> showPasswordResetSentDialog(BuildContext context) {
   return showGenericDialog(
     context: context,
-    title: 'Password reset',
-    content: 'We have sent you a password reset. Checnk your emails',
+    title: context.loc.password_reset,
+    content: context.loc.password_reset_dialog_prompt,
     optionsBuilder: () => {
-      'OK': null,
+      context.loc.ok: null,
     },
   );
 }
