@@ -1,6 +1,6 @@
 # notes manager - a Flutter application
 
-<img src="assets\images\cover.png" width="60%" />
+<img src="assets\images\cover.png" width="100%" />
 
 A basic Flutter notes app.
 
